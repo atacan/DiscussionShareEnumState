@@ -4,12 +4,21 @@
 	
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct DiscussionShareEnumStateApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(
+                store: Store(
+                    initialState: Content.State(
+                        items: Shared(.mock)
+                    ), reducer: {
+                        Content()
+                    }
+                )
+            )
         }
     }
 }
