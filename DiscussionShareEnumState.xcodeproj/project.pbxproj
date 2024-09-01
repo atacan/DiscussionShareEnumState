@@ -11,6 +11,7 @@
 		79AC17012C84759000DD5521 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AC17002C84759000DD5521 /* ContentView.swift */; };
 		79AC17032C84759200DD5521 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79AC17022C84759200DD5521 /* Assets.xcassets */; };
 		79AC17072C84759200DD5521 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79AC17062C84759200DD5521 /* Preview Assets.xcassets */; };
+		79AC170F2C8475BC00DD5521 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 79AC170E2C8475BC00DD5521 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79AC170F2C8475BC00DD5521 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +87,9 @@
 			dependencies = (
 			);
 			name = DiscussionShareEnumState;
+			packageProductDependencies = (
+				79AC170E2C8475BC00DD5521 /* ComposableArchitecture */,
+			);
 			productName = DiscussionShareEnumState;
 			productReference = 79AC16FB2C84759000DD5521 /* DiscussionShareEnumState.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +118,9 @@
 				Base,
 			);
 			mainGroup = 79AC16F22C84759000DD5521;
+			packageReferences = (
+				79AC170D2C8475BC00DD5521 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = 79AC16FC2C84759000DD5521 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -270,6 +278,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DiscussionShareEnumState/Preview Content\"";
+				DEVELOPMENT_TEAM = UFMN5LMXG2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -306,6 +315,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DiscussionShareEnumState/Preview Content\"";
+				DEVELOPMENT_TEAM = UFMN5LMXG2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -355,6 +365,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		79AC170D2C8475BC00DD5521 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.14.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		79AC170E2C8475BC00DD5521 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 79AC170D2C8475BC00DD5521 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 79AC16F32C84759000DD5521 /* Project object */;
 }

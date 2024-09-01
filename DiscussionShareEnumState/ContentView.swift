@@ -18,32 +18,34 @@ public struct Content {
     
     public var body: some Reducer<State, Action> {
         BindingReducer()
-            .onChange(of: \.selectedItemIDs) { oldValue, newValue in
-                Reduce { state, action in
-                    if newValue.isEmpty {
-                        state.multiSingleSelection = nil
-                        return .none
-                    }
-                    else if newValue.count == 1 {
-                        guard let id = newValue.first,
-                              let itemSelected = state.items[id: id] else {
-                            return .none
-                        }
-                        state.multiSingleSelection = .single(.init(item: itemSelected))
-                    } else {
-                        let itemsSelected = state.selectedItemIDs.compactMap { state.items[id: $0] }
-                        state.multiSingleSelection = .multi(.init(items: itemsSelected))
-                    }
-                    return .none
-                }
-            }
         Reduce<State, Action> { state, action in
             switch action {
+            case .binding(\.selectedItemIDs):
+                if state.selectedItemIDs.isEmpty {
+                    state.multiSingleSelection = nil
+                    return .none
+                }
+                else if state.selectedItemIDs.count == 1 {
+                    guard let id = state.selectedItemIDs.first,
+                          var itemSelected = state.items[id: id]
+                    else {
+                        return .none
+                    }
+                    state.multiSingleSelection = .single(.init(item: Shared(itemSelected)))
+                } else {
+                    let itemsSelected = state.selectedItemIDs.compactMap { state.items[id: $0] }
+                    state.multiSingleSelection = .multi(.init(items: itemsSelected))
+                }
+                return .none
+
             case .binding:
                 return .none
             case .multiSingleSelection:
                 return .none
             }
+        }
+        .ifLet(\.multiSingleSelection, action: \.multiSingleSelection) {
+            MultiSingleSelectionContent()
         }
     }
 }
@@ -60,13 +62,15 @@ struct ContentView: View {
                         .contentShape(Rectangle())
                 }
             }
-//            .frame(maxWidth: 120)
+            .frame(maxWidth: 150)
             
             if let multiSingleSelectionStore = store.scope(state: \.multiSingleSelection, action: \.multiSingleSelection) {
                 MultiSingleSelectionContentView(store: multiSingleSelectionStore)
             } else {
                 Text("Select an item")
             }
+            
+            Spacer()
         }
         .padding()
     }
@@ -88,11 +92,17 @@ public struct MultiSingleSelectionContent {
     public var body: some Reducer<State, Action> {
         Reduce<State, Action> { state, action in
             switch action {
-            case .single(let action):
+            case .single:
                 return .none
-            case .multi(let action):
+            case .multi:
                 return .none
             }
+        }
+        .ifCaseLet(\.single, action: \.single) {
+            SingleItemContent()
+        }
+        .ifCaseLet(\.multi, action: \.multi) {
+            MultiItemContent()
         }
     }
 }
@@ -119,7 +129,7 @@ struct MultiSingleSelectionContentView: View {
 public struct SingleItemContent {
     @ObservableState
     public struct State: Equatable {
-        var item: Item
+        @Shared var item: Item
     }
     
     public enum Action: BindableAction {
