@@ -18,7 +18,7 @@ I thought about using the `Destination` approach but I couldn't figure out scopi
 ## Question
 
 As this is a macOS app, and both views are visible at the same time, and I have this multi-selection view as well,  
-I don't think I would be able to use the navigation APIs of Swift, such as NavigationLink, etc.  
+I don't think I would be able to use the navigation APIs of SwiftUI, such as NavigationLink, etc.  
 
 Would you have a suggestion on how to implement this?
 
