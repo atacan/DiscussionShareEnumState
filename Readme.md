@@ -11,7 +11,7 @@ I structured the reducer with a parent reducer having an array of items and a ch
 
 Here is a toy project that has the reducers and the views, but of course, it does not reflect the edits that are made in the single item view to the parent's array.
 
-https://github.com/atacan/DiscussionShareEnumState/tree/main
+https://github.com/atacan/DiscussionShareEnumState/blob/main/DiscussionShareEnumState/ContentView.swift
 
 I thought about using the `Destination` approach but I couldn't figure out scoping the store to item views' stores.
 
