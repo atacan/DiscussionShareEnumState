@@ -1,13 +1,13 @@
 # Deriving shared state to a child reducer with enum state.
 
 Imagine an app like the Mail app on macOS.  
-When you select one mail, it will show you the details of the selected mail item.  
-When you select multiple emails, it will themn show like stacked papers. 
+When you select one mail on the sidebar, it will show you the details of the selected mail item.  
+When you select multiple emails, it will show them like stacked papers. 
 
 ## Initial Approach
 
 Having a list of items on the left sidebar and creating views on the right-hand side conditionally on whether one item or multiple items are selected,  
-I structured the reducer with a parent reducer having an array of items and a child reducer that has an enum state with single or multi, which has the associated values of the single item view reducer and multiple item view reducer states. 
+I structured the reducer with a parent reducer having an array of items and a child reducer that has an enum state with `single` or `multi`, which has the associated values of the single item view reducer and multiple item view reducer states. 
 
 Here is a toy project that has the reducers and the views, but of course, it does not reflect the edits that are made in the single item view to the parent's array.
 
