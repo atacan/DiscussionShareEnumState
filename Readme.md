@@ -21,3 +21,9 @@ As this is a macOS app, and both views are visible at the same time, and I have 
 I don't think I would be able to use the navigation APIs of Swift, such as NavigationLink, etc.  
 
 Would you have a suggestion on how to implement this?
+
+## Screenshots
+
+![no-selection view](images/none-selected.png) 
+![one-item selection view](images/single-item-selected.png)
+![multi-item selection view](images/multiple-items-selected.png)
