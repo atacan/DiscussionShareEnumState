@@ -3,17 +3,23 @@ import ComposableArchitecture
 
 @Reducer
 public struct Content {
+    @Reducer
+    public enum Destination {
+        case single(SingleItemContent)
+        case multi(MultiItemContent)
+    }
+    
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
+        @Presents var destination: Destination.State?
+        
         @Shared var items: IdentifiedArrayOf<Item>
         var selectedItemIDs: Set<Item.ID> = []
-        
-        var multiSingleSelection: MultiSingleSelectionContent.State?
     }
     
     public enum Action: BindableAction {
         case binding(BindingAction<State>)
-        case multiSingleSelection(MultiSingleSelectionContent.Action)
+        case destination(PresentationAction<Destination.Action>)
     }
     
     public var body: some Reducer<State, Action> {
@@ -22,7 +28,7 @@ public struct Content {
             switch action {
             case .binding(\.selectedItemIDs):
                 if state.selectedItemIDs.isEmpty {
-                    state.multiSingleSelection = nil
+                    state.destination = nil
                     return .none
                 }
                 else if state.selectedItemIDs.count == 1 {
@@ -31,22 +37,20 @@ public struct Content {
                     else {
                         return .none
                     }
-                    state.multiSingleSelection = .single(.init(item: Shared(itemSelected)))
+                    state.destination = .single(.init(item: Shared(itemSelected)))
                 } else {
                     let itemsSelected = state.selectedItemIDs.compactMap { state.items[id: $0] }
-                    state.multiSingleSelection = .multi(.init(items: itemsSelected))
+                    state.destination = .multi(.init(items: itemsSelected))
                 }
                 return .none
-
+                
             case .binding:
                 return .none
-            case .multiSingleSelection:
+            case .destination:
                 return .none
             }
         }
-        .ifLet(\.multiSingleSelection, action: \.multiSingleSelection) {
-            MultiSingleSelectionContent()
-        }
+        .ifLet(\.$destination, action: \.destination)
     }
 }
 
@@ -56,7 +60,7 @@ struct ContentView: View {
     var body: some View {
         HStack {
             List(selection: $store.selectedItemIDs) {
-                ForEach(store.items) { item in
+                ForEach(store.$items.elements) { $item in
                     Text(item.title)
                         .tag(item.id)
                         .contentShape(Rectangle())
@@ -64,11 +68,20 @@ struct ContentView: View {
             }
             .frame(maxWidth: 150)
             
-            if let multiSingleSelectionStore = store.scope(state: \.multiSingleSelection, action: \.multiSingleSelection) {
-                MultiSingleSelectionContentView(store: multiSingleSelectionStore)
-            } else {
-                Text("Select an item")
-            }
+//            if let destination = store[KeyPath<Content.State, Content.Destination.State?>]  {
+                switch store.destination {
+                case .single:
+//                    SingleItemContentView(store: store.scope(
+//                        state: \.destination,
+//                        action: \.destination.single))
+                    EmptyView()
+                case .multi:
+                    EmptyView()
+                case .none:
+                    EmptyView()
+                }
+//            }
+            
             
             Spacer()
         }
